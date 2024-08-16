@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 import json
@@ -24,11 +24,11 @@ class Log(db.Model):
 with app.app_context():
     db.create_all()
 
-    prueba1 = Log("hola")
-    prueba2 = Log("holaaa")
-    db.session.add(prueba1)
-    db.session.add(prueba2)
-    db.session.commit()
+    # prueba1 = Log("hola")
+    # prueba2 = Log("holaaa")
+    # db.session.add(prueba1)
+    # db.session.add(prueba2)
+    # db.session.commit()
 
 #Funcion para ordenar registros por fecha y hora
 def ordenar_por_fecha_y_hora(registros):
@@ -41,8 +41,9 @@ def index():
     registros_ordenados = ordenar_por_fecha_y_hora(registros)
     return render_template('index.html',registros=registros_ordenados)
 
-#Función para agregar mensajes y guardar en la base de datos
 mensajes_log = []
+
+#Función para agregar mensajes y guardar en la base de datos
 def agregar_mensajes_log(texto):
     mensajes_log.append(texto)
     #Guardar el mensaje en la base de datos
@@ -50,8 +51,37 @@ def agregar_mensajes_log(texto):
     db.session.add(nuevo_registro)
     db.session.commit()
 
-with app.app_context():
-    agregar_mensajes_log("Test-1")    
+# with app.app_context():
+#     agregar_mensajes_log("Test-1")
+
+#TOKEN DE VERIFICACION PARA LA CONFIGURACION
+TOKEN_MPERRO = "MPERRO"
+
+@app.route('/webhook', methods=['GET','POST'])
+
+def webhook():
+    if request.method== 'GET':
+        challenge = verificar_token(request)
+        return challenge
+    elif request.method == 'POST':
+        reponse = recibir_mensajes(request)
+        return reponse
+
+def verificar_token(req):
+    token = req.args.get('hub.verify_token')
+    challenge = req.args.get('hub.challenge')
+
+    if challenge and token == TOKEN_MPERRO:
+        return challenge
+    else:
+        return jsonify({'error':'token invalido'}),401
+
+def recibir_mensajes(req):
+    req = request.get_json
+    agregar_mensajes_log(req)
+    
+    return jsonify({'message':'EVENT_RECEIVED'})
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80,debug=True)
