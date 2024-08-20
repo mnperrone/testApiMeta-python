@@ -155,7 +155,6 @@ def enviar_mensajes_whatsapp(texto,number):
                         "body": "Primero se saluda, buen dia capo, no?"
                     }
                 }
-        }
     agregar_mensajes_log("Enviando mensaje de respuesta: " + str(data))  # Registro de depuración
 
     #Convertir el diccionario a formato json
