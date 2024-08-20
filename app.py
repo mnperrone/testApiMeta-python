@@ -25,11 +25,6 @@ class Log(db.Model):
 with app.app_context():
     db.create_all()
 
-    # prueba1 = Log("hola")
-    # prueba2 = Log("holaaa")
-    # db.session.add(prueba1)
-    # db.session.add(prueba2)
-    # db.session.commit()
 
 #Funcion para ordenar registros por fecha y hora
 def ordenar_por_fecha_y_hora(registros):
@@ -74,33 +69,6 @@ def verificar_token(req):
         return challenge
     else:
         return jsonify({'error':'token invalido'}),401
-
-# def recibir_mensajes(req):
-#     try:
-#         req = request.get_json()
-#         entry = req['entry'][0]
-#         changes = entry['changes'][0]
-#         value = changes['value']
-#         objeto_mensaje = value['messages']
-
-#         if objeto_mensaje:
-#             messages = objeto_mensaje[0]
-
-#             if "type" in messages:
-#                 tipo = messages["type"]
-
-#                 if tipo == "interactive":
-#                     return 0
-#                 if "text" in messages:
-#                     text = messages["text"]["body"]
-#                     numero  = messages["from"]
-#                     #agregar_mensajes_log(text)
-#                     #agregar_mensajes_log(numero)
-#                     enviar_mensajes_whatsapp(text,numero)
-
-#         return jsonify({'message':'EVENT_RECEIVED'})
-#     except Exception as e:
-#         return jsonify({'message':'EVENT_RECEIVED'})
  
 def recibir_mensajes(req):
     try:
@@ -140,7 +108,7 @@ def enviar_mensajes_whatsapp(texto,number):
                     "to": "541164999371",
                     "type": "text",
                     "text": {
-                        "preview_url": false,
+                        "preview_url": False,
                         "body": "Hola Gatienzoo"
                     }
                 }
@@ -151,7 +119,7 @@ def enviar_mensajes_whatsapp(texto,number):
                     "to": "541164999371",
                     "type": "text",
                     "text": {
-                        "preview_url": false,
+                        "preview_url": False,
                         "body": "Primero se saluda, buen dia capo, no?"
                     }
                 }
@@ -170,7 +138,10 @@ def enviar_mensajes_whatsapp(texto,number):
     try:
         connection.request("POST","/v20.0/368298853039307/messages", data, headers)
         response = connection.getresponse()
-        print(response.status, response.reason)
+        if response.status == 200:
+            print("Mensaje enviado exitosamente")
+        else:
+            print("Error al enviar mensaje:", response.status, response.reason)
     except Exception as e:
         agregar_mensajes_log(json.dumps(e))
     finally:
