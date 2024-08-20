@@ -136,11 +136,11 @@ def enviar_mensajes_whatsapp(texto,number):
     if "hola" in texto:
         data = {
                 "messaging_product": "whatsapp",    
-                "recipient_type": "individual",
                 "to": number,
+                "recipient_type": "individual",
                 "type": "text",
                 "text": {
-                    "preview_url": False,
+                    "preview_url": false,
                     "body": "Hola Gatienzoo"
                 }
         }
@@ -151,7 +151,7 @@ def enviar_mensajes_whatsapp(texto,number):
                 "to": number,
                 "type": "text",
                 "text": {
-                    "preview_url": False,
+                    "preview_url": false,
                     "body": "Primero se saluda, capo. Buen dia, no?"
                 }
         }
@@ -162,7 +162,7 @@ def enviar_mensajes_whatsapp(texto,number):
 
     headers = {
         "Content-Type" : "application/json",
-        "Authorization" : "Bearer EAAYhSwsIKiQBOZBctJylOZBNjaJeNoevfHrKbuHsvY0HaWmQmQ2nRNQZAZCDAxhuxIpZC6kkj4drpxJA2EnX4oCkGhT2mz7ZAYyE85Qze9qlqUk2bYXIPOGiPDXF7xLOivAhX755Wc2Ys3wXZCbvpKoyf5rEavkFXVfjTaxmZAk9RI1gXMkFQeBaojhTNLgregIsrAMU4Ip1iofmjDmAVawZD"
+        "Authorization" : "Bearer EAAYhSwsIKiQBOy3zr2Rx8NIwlUfCj5kQdXF6gzTGB3i3RZAfo5ZAwtSMQAZBzZBgKk3mdUdQiR30KzZCma1sKgDDZBquZCFc8UkqXkmjepZCdm6kauLPKHtnfTQ7lEhpGYv674RzSOGsAOCZCxyNVKZCP1hnOX113ahzcibyZBq3holXyR2HSlZCoKwuXgIJydgyRZBPZBnZCZCzLBOQD12q1ZBBahlUZD"
     }
 
     connection = http.client.HTTPConnection("graph.facebook.com")
