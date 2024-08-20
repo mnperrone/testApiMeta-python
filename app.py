@@ -135,24 +135,25 @@ def enviar_mensajes_whatsapp(texto,number):
     texto = texto.lower()
     if "hola" in texto:
         data = {
-                "messaging_product": "whatsapp",    
-                "to": number,
-                "recipient_type": "individual",
-                "type": "text",
-                "text": {
-                    "preview_url": false,
-                    "body": "Hola Gatienzoo"
+                    "messaging_product": "whatsapp",    
+                    "recipient_type": "individual",
+                    "to": "541164999371",
+                    "type": "text",
+                    "text": {
+                        "preview_url": false,
+                        "body": "Hola Gatienzoo"
+                    }
                 }
-        }
     else:
                 data = {
-                "messaging_product": "whatsapp",    
-                "recipient_type": "individual",
-                "to": number,
-                "type": "text",
-                "text": {
-                    "preview_url": false,
-                    "body": "Primero se saluda, capo. Buen dia, no?"
+                    "messaging_product": "whatsapp",    
+                    "recipient_type": "individual",
+                    "to": "541164999371",
+                    "type": "text",
+                    "text": {
+                        "preview_url": false,
+                        "body": "Primero se saluda, buen dia capo, no?"
+                    }
                 }
         }
     agregar_mensajes_log("Enviando mensaje de respuesta: " + str(data))  # Registro de depuración
