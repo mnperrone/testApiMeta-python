@@ -141,7 +141,7 @@ def enviar_mensajes_whatsapp(texto,number):
         response = connection.getresponse()
         print(response.status, response.reason)
     except Exception as e:
-        agregar_mensajes_log(e)
+        agregar_mensajes_log(json.dumps(e))
     finally:
         connection.close()
 
