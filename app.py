@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
+import http.client
 import json
 
 app = Flask(__name__)
@@ -52,9 +53,6 @@ def agregar_mensajes_log(texto):
     db.session.add(nuevo_registro)
     db.session.commit()
 
-# with app.app_context():
-#     agregar_mensajes_log("Test-1")
-
 #TOKEN DE VERIFICACION PARA LA CONFIGURACION
 TOKEN_MPERRO = "MPERRO"
 
@@ -100,14 +98,52 @@ def recibir_mensajes(req):
                     agregar_mensajes_log(text)
                     agregar_mensajes_log(numero)
 
-        
-
         return jsonify({'message':'EVENT_RECEIVED'})
     except Exception as e:
         return jsonify({'message':'EVENT_RECEIVED'})    
 
-    
-    
+def enviar_mensajes_whatsapp(texto,number):
+    texto = texto.lower()
+    if "hola" in texto:
+        data = {
+                "messaging_product": "whatsapp",    
+                "recipient_type": "individual",
+                "to": number,
+                "type": "text",
+                "text": {
+                    "preview_url": False,
+                    "body": "Hola Gatienzoo"
+                }
+        }
+    else:
+                data = {
+                "messaging_product": "whatsapp",    
+                "recipient_type": "individual",
+                "to": number,
+                "type": "text",
+                "text": {
+                    "preview_url": False,
+                    "body": "Primero se saluda, capo. Buen dia, no?"
+                }
+        }
+    #Convertir el diccionario a formato json
+    data = json.dumps(data)
+
+    headers = {
+        "Contente-Type" : "application/json",
+        "Authorization" : "Bearer EAAYhSwsIKiQBOwZACTjDv5ODZAwWBqrNaaiifGiwF89Qkf0mO4jk3RO3OJNHtu4RZAprU1bLS5VGuL7oRPHBcEqRNo79z2sHMi0YVjqZAmMUKvGOSHZCNKiC4seHTQDqZBQgiprr4I1VpfZCzN7BjhzjaTS2M2H09iAPBMrFhcCxqGJZCPhRakHB2p1SiYc4R0lJt4dZC4dP7xtKM3thukZC0ZD"
+    }
+
+    connection = http.client.HTTPConnection("graph.facebook.com")
+
+    try:
+        connection.request("POST","/v20.0/368298853039307/messages", data, headers)
+        response = connection.getresponse()
+        print(response.status, response.reason)
+    except Exception as e:
+        agregar_mensajes_log(e)
+    finally:
+        connection.close()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80,debug=True)
