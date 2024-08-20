@@ -75,9 +75,37 @@ def verificar_token(req):
     else:
         return jsonify({'error':'token invalido'}),401
 
+# def recibir_mensajes(req):
+#     try:
+#         req = request.get_json()
+#         entry = req['entry'][0]
+#         changes = entry['changes'][0]
+#         value = changes['value']
+#         objeto_mensaje = value['messages']
+
+#         if objeto_mensaje:
+#             messages = objeto_mensaje[0]
+
+#             if "type" in messages:
+#                 tipo = messages["type"]
+
+#                 if tipo == "interactive":
+#                     return 0
+#                 if "text" in messages:
+#                     text = messages["text"]["body"]
+#                     numero  = messages["from"]
+#                     #agregar_mensajes_log(text)
+#                     #agregar_mensajes_log(numero)
+#                     enviar_mensajes_whatsapp(text,numero)
+
+#         return jsonify({'message':'EVENT_RECEIVED'})
+#     except Exception as e:
+#         return jsonify({'message':'EVENT_RECEIVED'})
+ 
 def recibir_mensajes(req):
     try:
         req = request.get_json()
+        print("Mensaje recibido:", req)  # Registro de depuración
         entry = req['entry'][0]
         changes = entry['changes'][0]
         value = changes['value']
@@ -93,14 +121,15 @@ def recibir_mensajes(req):
                     return 0
                 if "text" in messages:
                     text = messages["text"]["body"]
-                    numero  = messages["from"]
-                    #agregar_mensajes_log(text)
-                    #agregar_mensajes_log(numero)
+                    numero = messages["from"]
+                    print("Texto del mensaje:", text)  # Registro de depuración
+                    print("Número de teléfono:", numero)  # Registro de depuración
                     enviar_mensajes_whatsapp(text,numero)
 
         return jsonify({'message':'EVENT_RECEIVED'})
     except Exception as e:
-        return jsonify({'message':'EVENT_RECEIVED'})    
+        print("Error:", e)  # Registro de depuración
+        return jsonify({'message':'EVENT_RECEIVED'})     
 
 def enviar_mensajes_whatsapp(texto,number):
     texto = texto.lower()
