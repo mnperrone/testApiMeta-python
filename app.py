@@ -105,7 +105,7 @@ def verificar_token(req):
 def recibir_mensajes(req):
     try:
         req = request.get_json()
-        print("Mensaje recibido:", req)  # Registro de depuración
+        agregar_mensajes_log("Mensaje recibido: " + str(req))  # Registro de depuración
         entry = req['entry'][0]
         changes = entry['changes'][0]
         value = changes['value']
@@ -122,13 +122,13 @@ def recibir_mensajes(req):
                 if "text" in messages:
                     text = messages["text"]["body"]
                     numero = messages["from"]
-                    print("Texto del mensaje:", text)  # Registro de depuración
-                    print("Número de teléfono:", numero)  # Registro de depuración
+                    agregar_mensajes_log("Texto del mensaje: " + text)  # Registro de depuración
+                    agregar_mensajes_log("Número de teléfono: " + numero)  # Registro de depuración
                     enviar_mensajes_whatsapp(text,numero)
 
         return jsonify({'message':'EVENT_RECEIVED'})
     except Exception as e:
-        print("Error:", e)  # Registro de depuración
+        agregar_mensajes_log("Error: " + str(e))  # Registro de depuración
         return jsonify({'message':'EVENT_RECEIVED'})     
 
 def enviar_mensajes_whatsapp(texto,number):
