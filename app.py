@@ -94,9 +94,9 @@ def recibir_mensajes(req):
                 if "text" in messages:
                     text = messages["text"]["body"]
                     numero  = messages["from"]
-
-                    agregar_mensajes_log(text)
-                    agregar_mensajes_log(numero)
+                    #agregar_mensajes_log(text)
+                    #agregar_mensajes_log(numero)
+                    enviar_mensajes_whatsapp(text,numero)
 
         return jsonify({'message':'EVENT_RECEIVED'})
     except Exception as e:
