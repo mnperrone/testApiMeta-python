@@ -152,6 +152,7 @@ def enviar_mensajes_whatsapp(texto,number):
         "Content-Type" : "application/json",
         "Authorization" : "Bearer EAAYhSwsIKiQBOZCtLw8rmCnCKsfSRs0qiP2lKLOxnL02esZAxbidew9xLHc2ksHPDsPE54Kpl0y5CfntcQN0Qx8aDdnK3ByqvjetnlwoAKIatjevZAXEfakk9KQYcVp0NOzNR2ytquE3BgAhHfG8iBqucYroU7WRYv1bbfI9IPp940W9gtrLf0lyuwrAowvOp9tLMZBkrghS3QEUZBmZCJ"
     }
+    headers = json.dumps(headers)
 
     #connection = http.client.HTTPSConnection("graph.facebook.com")
 
@@ -177,17 +178,9 @@ def enviar_mensajes_whatsapp(texto,number):
         # Enviar la solicitud POST
         connection.request("POST","/v20.0/368298853039307/messages", data, headers)
         response = connection.getresponse()
-        agregar_mensajes_log(connection)
-        agregar_mensajes_log(response)
         #response = requests.post(url, headers=headers, data=json.dumps(data))
         agregar_mensajes_log(response.status)
         agregar_mensajes_log(response.reason)
-        # Verificar el código de estado de la respuesta
-        if response.status == 200:
-            print("Mensaje enviado correctamente.")
-        else:
-            print(f"Error al enviar el mensaje: {response.status} - {response.reason}")
-
     except Exception as e:
         # Manejar errores de conexión o de la solicitud
         agregar_mensajes_log(e)
