@@ -175,7 +175,7 @@ def enviar_mensajes_whatsapp(texto,number):
 
     try:
         # Enviar la solicitud POST
-        connection.request("POST","/v20.0/368298853039307/messages", data, headers)
+        connection.request("POST","https://graph.facebook.com/v20.0/368298853039307/messages", data, headers)
         response = connection.getresponse()
         #response = requests.post(url, headers=headers, data=json.dumps(data))
         agregar_mensajes_log(response.status)
