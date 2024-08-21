@@ -171,11 +171,13 @@ def enviar_mensajes_whatsapp(texto,number):
     
     # URL de la API de WhatsApp
     #url = "https://graph.facebook.com/v20.0/368298853039307/messages"
-    connection = http.client.HTTPSConnection("graph.facebook.com")
+    #connection = http.client.HTTPSConnection("graph.facebook.com")
+    connection = http.client.HTTPSConnection("graph.facebook.com/v20.0/368298853039307/messages")
 
     try:
         # Enviar la solicitud POST
-        connection.request("POST","https://graph.facebook.com/v20.0/368298853039307/messages", data, headers)
+        #connection.request("POST","https://graph.facebook.com/v20.0/368298853039307/messages", data, headers)
+        connection.request("POST", connection, data, headers)
         response = connection.getresponse()
         #response = requests.post(url, headers=headers, data=json.dumps(data))
         agregar_mensajes_log(response.status)
