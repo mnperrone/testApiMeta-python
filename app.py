@@ -157,7 +157,8 @@ def enviar_mensajes_whatsapp(texto,number):
     try:
         connection.request("POST","/v20.0/368298853039307/messages", data, headers)
         response = connection.getresponse()
-        agregar_mensajes_log(response.status + response.reason)
+        agregar_mensajes_log(response.status)
+        agregar_mensajes_log(response.reason)
         if response.status == 200:
             print("Mensaje enviado exitosamente")
         else:
