@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 import http.client
+import requests
 import json
 
 app = Flask(__name__)
@@ -154,19 +155,37 @@ def enviar_mensajes_whatsapp(texto,number):
 
     connection = http.client.HTTPSConnection("graph.facebook.com")
 
+    # try:
+    #     connection.request("POST","/v20.0/368298853039307/messages", data, headers)
+    #     response = connection.getresponse()
+    #     agregar_mensajes_log(response.status)
+    #     agregar_mensajes_log(response.reason)
+    #     if response.status == 200:
+    #         print("Mensaje enviado exitosamente")
+    #     else:
+    #         print("Error al enviar mensaje:", response.status, response.reason)
+    # except Exception as e:
+    #     agregar_mensajes_log(e)
+    # finally:
+    #     connection.close()
+    
+    # URL de la API de WhatsApp
+    url = "https://graph.facebook.com/v20.0/368298853039307/messages"
+    
     try:
-        connection.request("POST","/v20.0/368298853039307/messages", data, headers)
-        response = connection.getresponse()
+        # Enviar la solicitud POST
+        response = requests.post(url, headers=headers, data=json.dumps(data))
         agregar_mensajes_log(response.status)
         agregar_mensajes_log(response.reason)
-        if response.status == 200:
-            print("Mensaje enviado exitosamente")
+        # Verificar el código de estado de la respuesta
+        if response.status_code == 200:
+            print("Mensaje enviado correctamente.")
         else:
-            print("Error al enviar mensaje:", response.status, response.reason)
-    except Exception as e:
-        agregar_mensajes_log(e)
-    finally:
-        connection.close()
+            print(f"Error al enviar el mensaje: {response.status_code} - {response.text}")
+
+    except requests.exceptions.RequestException as e:
+        # Manejar errores de conexión o de la solicitud
+        print(f"Ocurrió un error al enviar el mensaje: {e}")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80,debug=True)
