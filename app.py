@@ -181,10 +181,10 @@ def enviar_mensajes_whatsapp(texto,number):
         agregar_mensajes_log(response.status)
         agregar_mensajes_log(response.reason)
         # Verificar el código de estado de la respuesta
-        if response.status_code == 200:
+        if response.status == 200:
             print("Mensaje enviado correctamente.")
         else:
-            print(f"Error al enviar el mensaje: {response.status_code} - {response.text}")
+            print(f"Error al enviar el mensaje: {response.status} - {response.reason}")
 
     except requests.exceptions.RequestException as e:
         # Manejar errores de conexión o de la solicitud
