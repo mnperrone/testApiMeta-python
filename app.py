@@ -186,9 +186,11 @@ def enviar_mensajes_whatsapp(texto,number):
         else:
             print(f"Error al enviar el mensaje: {response.status} - {response.reason}")
 
-    except requests.exceptions.RequestException as e:
+    except Exception as e:
         # Manejar errores de conexión o de la solicitud
-        print(f"Ocurrió un error al enviar el mensaje: {e}")
+        agregar_mensajes_log(e)
+    finally:
+        connection.close()    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80,debug=True)
