@@ -155,13 +155,14 @@ def enviar_mensajes_whatsapp(texto,number):
     connection = http.client.HTTPSConnection("graph.facebook.com")
 
     try:
-        conn = connection.request("POST","/v20.0/368298853039307/messages", data, headers)
+        connection.request("POST","/v20.0/368298853039307/messages", data, headers)
+        conn = str(connection.request("POST","/v20.0/368298853039307/messages", data, headers))
         response = connection.getresponse()
         if response.status == 200:
             print("Mensaje enviado exitosamente")
-            agregar_mensajes_log("Mensaje enviado exitosamente" + conn)
+            agregar_mensajes_log(conn)
         else:
-            agregar_mensajes_log("Error al enviar mensaje" + conn)
+            agregar_mensajes_log(conn)
             print("Error al enviar mensaje:", response.status, response.reason)
     except Exception as e:
         agregar_mensajes_log(e)
