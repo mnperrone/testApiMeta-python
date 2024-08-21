@@ -85,14 +85,33 @@ def recibir_mensajes(req):
             if "type" in messages:
                 tipo = messages["type"]
 
+                #Guardar Log en la BD
+                agregar_mensajes_log(messages)
+
                 if tipo == "interactive":
-                    return 0
+                    tipo_interactivo = messages["interactive"]["type"]
+
+                    if tipo_interactivo == "button_reply":
+                        text = messages["interactive"]["button_reply"]["id"]
+                        numero = messages["from"]
+
+                        enviar_mensajes_whatsapp(text,numero)
+
+                    elif tipo_interactivo == "list_reply":
+                        text = messages["interactive"]["list_reply"]["id"]
+                        numero = messages["from"]
+
+                        enviar_mensajes_whatsapp(text,numero)    
+
                 if "text" in messages:
                     text = messages["text"]["body"]
                     numero = messages["from"]
-                    agregar_mensajes_log("Texto del mensaje: " + text)  # Registro de depuración
-                    agregar_mensajes_log("Número de teléfono: " + numero)  # Registro de depuración
+                    #agregar_mensajes_log("Texto del mensaje: " + text)  # Registro de depuración
+                    #agregar_mensajes_log("Número de teléfono: " + numero)  # Registro de depuración
                     enviar_mensajes_whatsapp(text,numero)
+
+                    #Guardar Log en la BD
+                    agregar_mensajes_log(messages)
 
         return jsonify({'message':'EVENT_RECEIVED'})
     except Exception as e:
@@ -105,7 +124,7 @@ def enviar_mensajes_whatsapp(texto,number):
         data = {
                     "messaging_product": "whatsapp",    
                     "recipient_type": "individual",
-                    "to": "541164999371",
+                    "to": number,
                     "type": "text",
                     "text": {
                         "preview_url": False,
@@ -116,7 +135,7 @@ def enviar_mensajes_whatsapp(texto,number):
                 data = {
                     "messaging_product": "whatsapp",    
                     "recipient_type": "individual",
-                    "to": "541164999371",
+                    "to": number,
                     "type": "text",
                     "text": {
                         "preview_url": False,
@@ -130,7 +149,7 @@ def enviar_mensajes_whatsapp(texto,number):
 
     headers = {
         "Content-Type" : "application/json",
-        "Authorization" : "Bearer EAAYhSwsIKiQBOy3zr2Rx8NIwlUfCj5kQdXF6gzTGB3i3RZAfo5ZAwtSMQAZBzZBgKk3mdUdQiR30KzZCma1sKgDDZBquZCFc8UkqXkmjepZCdm6kauLPKHtnfTQ7lEhpGYv674RzSOGsAOCZCxyNVKZCP1hnOX113ahzcibyZBq3holXyR2HSlZCoKwuXgIJydgyRZBPZBnZCZCzLBOQD12q1ZBBahlUZD"
+        "Authorization" : "Bearer EAAYhSwsIKiQBOZCtLw8rmCnCKsfSRs0qiP2lKLOxnL02esZAxbidew9xLHc2ksHPDsPE54Kpl0y5CfntcQN0Qx8aDdnK3ByqvjetnlwoAKIatjevZAXEfakk9KQYcVp0NOzNR2ytquE3BgAhHfG8iBqucYroU7WRYv1bbfI9IPp940W9gtrLf0lyuwrAowvOp9tLMZBkrghS3QEUZBmZCJ"
     }
 
     connection = http.client.HTTPConnection("graph.facebook.com")
