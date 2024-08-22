@@ -143,15 +143,16 @@ def enviar_mensajes_whatsapp(texto,number):
                         "body": "Primero se saluda, buen dia capo, no?"
                     }
                 }
-    agregar_mensajes_log("Enviando mensaje de respuesta: " + str(data))  # Registro de depuración
+    agregar_mensajes_log("Enviando mensaje de respuesta: " + data)  # Registro de depuración
 
     #Convertir el diccionario a formato json
     data = json.dumps(data)
 
     headers = {
         "Content-Type" : "application/json",
-        "Authorization" : "Bearer EAAYhSwsIKiQBOZCtLw8rmCnCKsfSRs0qiP2lKLOxnL02esZAxbidew9xLHc2ksHPDsPE54Kpl0y5CfntcQN0Qx8aDdnK3ByqvjetnlwoAKIatjevZAXEfakk9KQYcVp0NOzNR2ytquE3BgAhHfG8iBqucYroU7WRYv1bbfI9IPp940W9gtrLf0lyuwrAowvOp9tLMZBkrghS3QEUZBmZCJ"
+        "Authorization" : "Bearer EAAYhSwsIKiQBO3sPDAHaUIiOjfOsOp4BdbvrVmklTxxlCcr98U6Y0u8YboPrn4XwbRiTPRnZAa4ibIyWZBZAxHHJRJ7wSkUCzx8cdEXXL4437lBFxr2YTgX0YG1TscSOdTHSIcyDwEqrlX8b8oPc4UC3NMqZA4xvXxY8j10d55WbwTWmXgYc5q0586h65o2ZAIu02lWnxtDkYDPGxUWgZD"
     }
+
     headers = json.dumps(headers)
 
     #connection = http.client.HTTPSConnection("graph.facebook.com")
@@ -171,12 +172,12 @@ def enviar_mensajes_whatsapp(texto,number):
     #     connection.close()
     
     # URL de la API de WhatsApp
-    url = "https://graph.facebook.com/v20.0/368298853039307/messages"
+    #url = "https://graph.facebook.com/v20.0/368298853039307/messages"
     connection = http.client.HTTPSConnection("graph.facebook.com")
 
     try:
         # Enviar la solicitud POST
-        connection.request("POST",url, data, headers)
+        connection.request("POST","/v20.0/368298853039307/messages", data, headers)
         response = connection.getresponse()
         #response = requests.post(url, headers=headers, data=json.dumps(data))
         agregar_mensajes_log(response.status)
