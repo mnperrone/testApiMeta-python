@@ -144,7 +144,7 @@ def enviar_mensajes_whatsapp(texto,number):
                     }
                 }
     #Convertir el diccionario a formato json
-    data = json.dumps(data)
+    #data = json.dumps(data)
     #agregar_mensajes_log("Enviando mensaje de respuesta: " + data)  # Registro de depuración
     agregar_mensajes_log(f"Data Sent: {json.dumps(data, indent=2)}")
 
@@ -191,7 +191,7 @@ def enviar_mensajes_whatsapp(texto,number):
     url = "https://graph.facebook.com/v20.0/368298853039307/messages"
 
     try:
-        # Enviar la solicitud POST con requests
+        # Enviar la solicitud POST con requests sin json.dumps(data)
         response = requests.post(url, headers=headers, json=data)
 
         # Registrar el estado de la respuesta y el contenido completo de la respuesta
