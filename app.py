@@ -79,43 +79,44 @@ def limpiar_numero_telefono(numero):
 
 def recibir_mensajes(req):
     try:
-        req = request.get_json()
-        agregar_mensajes_log("Mensaje recibido: " + str(req))  # Registro de depuración
-        entry = req['entry'][0]
+        req_data = request.get_json()
+        agregar_mensajes_log("Mensaje recibido: " + str(req_data))  # Registro de depuración
+
+        if 'entry' not in req_data:
+            raise ValueError("La clave 'entry' no está en el JSON recibido.")
+        
+        entry = req_data['entry'][0]
+        if 'changes' not in entry:
+            raise ValueError("La clave 'changes' no está en 'entry'.")
+        
         changes = entry['changes'][0]
+        if 'value' not in changes:
+            raise ValueError("La clave 'value' no está en 'changes'.")
+        
         value = changes['value']
-        objeto_mensaje = value['messages']
+        if 'statuses' not in value:
+            raise ValueError("La clave 'statuses' no está en 'value'.")
+        
+        statuses = value['statuses']
+        if not statuses:
+            raise ValueError("La lista 'statuses' está vacía o no contiene estados.")
 
-        if objeto_mensaje:
-            messages = objeto_mensaje[0]
+        status = statuses[0]
 
-            if "type" in messages:
-                tipo = messages["type"]
+        if 'recipient_id' in status:
+            numero = limpiar_numero_telefono(status['recipient_id'])  # Limpia el número de teléfono
+        else:
+            raise ValueError("La clave 'recipient_id' no está en 'status'.")
 
-                if "from" in messages:
-                    numero = limpiar_numero_telefono(messages["from"])  # Limpia el número de teléfono
-
-                if tipo == "interactive":
-                    tipo_interactivo = messages["interactive"]["type"]
-
-                    if tipo_interactivo == "button_reply":
-                        text = messages["interactive"]["button_reply"]["id"]
-                        enviar_mensajes_whatsapp(text, numero)
-
-                    elif tipo_interactivo == "list_reply":
-                        text = messages["interactive"]["list_reply"]["id"]
-                        enviar_mensajes_whatsapp(text, numero)
-
-                if "text" in messages:
-                    text = messages["text"]["body"]
-                    enviar_mensajes_whatsapp(text, numero)
-
-                agregar_mensajes_log(messages)
+        if 'status' in status:
+            text = "Estado del mensaje: " + status['status']
+            agregar_mensajes_log(text)
 
         return jsonify({'message': 'EVENT_RECEIVED'})
     except Exception as e:
         agregar_mensajes_log("Error: " + str(e))  # Registro de depuración
         return jsonify({'message': 'EVENT_RECEIVED'})
+
 
 
 def enviar_mensajes_whatsapp(texto,number):
