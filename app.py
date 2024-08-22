@@ -71,6 +71,12 @@ def verificar_token(req):
     else:
         return jsonify({'error':'token invalido'}),401
  
+def limpiar_numero_telefono(numero):
+    if numero.startswith("549") and len(numero) == 13:  # Si el número empieza con "549" y tiene 13 dígitos
+        numero = "54" + numero[3:]  # Remover el dígito "9"
+    return numero
+
+
 def recibir_mensajes(req):
     try:
         req = request.get_json()
@@ -86,38 +92,31 @@ def recibir_mensajes(req):
             if "type" in messages:
                 tipo = messages["type"]
 
-                #Guardar Log en la BD
-                #agregar_mensajes_log(messages)
+                if "from" in messages:
+                    numero = limpiar_numero_telefono(messages["from"])  # Limpia el número de teléfono
 
                 if tipo == "interactive":
                     tipo_interactivo = messages["interactive"]["type"]
 
                     if tipo_interactivo == "button_reply":
                         text = messages["interactive"]["button_reply"]["id"]
-                        numero = messages["from"]
-
-                        enviar_mensajes_whatsapp(text,numero)
+                        enviar_mensajes_whatsapp(text, numero)
 
                     elif tipo_interactivo == "list_reply":
                         text = messages["interactive"]["list_reply"]["id"]
-                        numero = messages["from"]
-
-                        enviar_mensajes_whatsapp(text,numero)    
+                        enviar_mensajes_whatsapp(text, numero)
 
                 if "text" in messages:
                     text = messages["text"]["body"]
-                    numero = messages["from"]
-                    #agregar_mensajes_log("Texto del mensaje: " + text)  # Registro de depuración
-                    #agregar_mensajes_log("Número de teléfono: " + numero)  # Registro de depuración
-                    enviar_mensajes_whatsapp(text,numero)
+                    enviar_mensajes_whatsapp(text, numero)
 
-                #Guardar Log en la BD
                 agregar_mensajes_log(messages)
 
-        return jsonify({'message':'EVENT_RECEIVED'})
+        return jsonify({'message': 'EVENT_RECEIVED'})
     except Exception as e:
         agregar_mensajes_log("Error: " + str(e))  # Registro de depuración
-        return jsonify({'message':'EVENT_RECEIVED'})     
+        return jsonify({'message': 'EVENT_RECEIVED'})
+
 
 def enviar_mensajes_whatsapp(texto,number):
     texto = texto.lower()
