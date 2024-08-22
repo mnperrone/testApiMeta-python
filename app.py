@@ -79,47 +79,35 @@ def limpiar_numero_telefono(numero):
 
 def recibir_mensajes(req):
     try:
-        req_data = request.get_json()
-        agregar_mensajes_log("Mensaje recibido: " + str(req_data))  # Registro de depuración
+        req_json = request.get_json()
+        agregar_mensajes_log("Mensaje recibido: " + str(req_json))  # Registro de depuración
+        entry = req_json.get('entry', [])[0]
+        changes = entry.get('changes', [])[0]
+        value = changes.get('value', {})
 
-        if 'entry' not in req_data:
-            raise ValueError("La clave 'entry' no está en el JSON recibido.")
+        # Verificar si la clave 'statuses' está presente
+        if 'statuses' in value:
+            statuses = value['statuses'][0]
+            numero = statuses['recipient_id']
+            
+            # Llamar a la función para limpiar el número
+            numero_limpio = limpiar_numero_telefono(numero)
+
+            status = statuses['status']
+            
+            # Aquí puedes procesar el estado del mensaje si es necesario
+            agregar_mensajes_log(f"Estado del mensaje: {status} para el número {numero_limpio}")
+
+            # Ejemplo de envío de mensaje de respuesta basado en el estado
+            if status == 'delivered':
+                enviar_mensajes_whatsapp("Mensaje entregado correctamente", numero_limpio)
+            elif status == 'failed':
+                enviar_mensajes_whatsapp("Error en la entrega del mensaje", numero_limpio)
         
-        entry = req_data['entry'][0]
-        if 'changes' not in entry:
-            raise ValueError("La clave 'changes' no está en 'entry'.")
-        
-        changes = entry['changes'][0]
-        if 'value' not in changes:
-            raise ValueError("La clave 'value' no está en 'changes'.")
-        
-        value = changes['value']
-        if 'messages' not in value:
-            raise ValueError("La clave 'messages' no está en 'value'.")
-        
-        messages = value['messages']
-        if not messages:
-            raise ValueError("La lista 'messages' está vacía o no contiene mensajes.")
-
-        message = messages[0]
-
-        if 'from' in message:
-            numero = limpiar_numero_telefono(message['from'])  # Limpia el número de teléfono
-        else:
-            raise ValueError("La clave 'from' no está en 'message'.")
-
-        if 'text' in message and 'body' in message['text']:
-            text = message['text']['body']
-            # Llama a la función para enviar el mensaje
-            enviar_mensajes_whatsapp(text, numero)
-        else:
-            raise ValueError("El mensaje no contiene texto.")
-
         return jsonify({'message': 'EVENT_RECEIVED'})
     except Exception as e:
         agregar_mensajes_log("Error: " + str(e))  # Registro de depuración
-        return jsonify({'message': 'EVENT_RECEIVED'})
-
+        return jsonify({'message': 'ERROR_OCCURRED'})
 
 def enviar_mensajes_whatsapp(texto,number):
     texto = texto.lower()
