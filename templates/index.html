@@ -26,12 +26,14 @@
         <tr>
             <th>id</th>
             <th>fecha y Hora</th>
+            <th>Remitente</th>
             <th>Mensaje</th>
         </tr>
         {% for registro in registros %}
             <tr>
                 <td>{{ registro.id }}</td>
                 <td>{{ registro.fecha_y_hora.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>{{ registro.remitente }}</td>
                 <td>{{ registro.texto }}</td>
             </tr>
         {% endfor %} 

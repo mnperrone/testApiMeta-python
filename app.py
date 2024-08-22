@@ -16,11 +16,13 @@ db =SQLAlchemy(app)
 class Log(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     fecha_y_hora = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    remitente = db.Column(db.String)
     texto = db.Column(db.TEXT)
     
     #constructor de la clase Log
-    def __init__(self, texto):
+    def __init__(self, texto, remitente):
         self.texto = texto
+        self.remitente = remitente
 
 #Crear la tabla si no existe
 with app.app_context():
@@ -41,11 +43,11 @@ def index():
 mensajes_log = []
 
 #Función para agregar mensajes y guardar en la base de datos
-def agregar_mensajes_log(texto):
+def agregar_mensajes_log(texto, remitente):
     texto = str(texto)
     mensajes_log.append(texto)
     #Guardar el mensaje en la base de datos
-    nuevo_registro = Log(texto=texto)
+    nuevo_registro = Log(texto=texto,remitente=remitente)
     db.session.add(nuevo_registro)
     db.session.commit()
 
@@ -80,8 +82,7 @@ def limpiar_numero_telefono(numero):
 def recibir_mensajes(req):
     try:
         req = request.get_json()
-        agregar_mensajes_log("Mensaje recibido: " + str(req))  # Log de depuración
-
+        # Obtener el remitente del mensaje
         entry = req.get('entry', [])[0]
         changes = entry.get('changes', [])[0]
         value = changes.get('value', {})
@@ -111,43 +112,42 @@ def recibir_mensajes(req):
                     text = message['interactive']['list_reply']['id']
                     enviar_mensajes_whatsapp(text, numero_limpio)
 
-            agregar_mensajes_log("Mensaje procesado correctamente.")
+            agregar_mensajes_log("Mensaje procesado correctamente.", numero_limpio)
         
+        agregar_mensajes_log("Mensaje recibido: " + str(req), numero_limpio)  # Log de depuración
         return jsonify({'message': 'EVENT_RECEIVED'})
 
     except Exception as e:
-        agregar_mensajes_log("Error: " + str(e))
+        agregar_mensajes_log("Error: " + str(e), numero if 'numero' in locals() else "N/A")
         return jsonify({'message': 'EVENT_RECEIVED'})
 
-
-def enviar_mensajes_whatsapp(texto,number):
+def enviar_mensajes_whatsapp(texto, number):
     texto = texto.lower()
     if "hola" in texto:
         data = {
-                    "messaging_product": "whatsapp",    
-                    "recipient_type": "individual",
-                    "to": number,
-                    "type": "text",
-                    "text": {
-                        "preview_url": False,
-                        "body": "Hola Gatienzoo"
-                    }
-                }
+            "messaging_product": "whatsapp",    
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "Hola Gatienzoo"
+            }
+        }
     else:
-                data = {
-                    "messaging_product": "whatsapp",    
-                    "recipient_type": "individual",
-                    "to": number,
-                    "type": "text",
-                    "text": {
-                        "preview_url": False,
-                        "body": "Primero se saluda, buen dia capo, no?"
-                    }
-                }
-    #Convertir el diccionario a formato json
-    #data = json.dumps(data)
-    #agregar_mensajes_log("Enviando mensaje de respuesta: " + data)  # Registro de depuración
-    agregar_mensajes_log(f"Data Sent: {json.dumps(data, indent=2)}")
+        data = {
+            "messaging_product": "whatsapp",    
+            "recipient_type": "individual",
+            "to": number,
+            "type": "text",
+            "text": {
+                "preview_url": False,
+                "body": "Primero se saluda, buen dia capo, no?"
+            }
+        }
+    
+    # Registro de depuración con el remitente (número)
+    agregar_mensajes_log(f"Data Sent: {json.dumps(data, indent=2)}", number)
 
 
     headers = {
@@ -196,15 +196,15 @@ def enviar_mensajes_whatsapp(texto,number):
         response = requests.post(url, headers=headers, json=data)
 
         # Registrar el estado de la respuesta y el contenido completo de la respuesta
-        agregar_mensajes_log(f"Status Code: {response.status_code}")
-        agregar_mensajes_log(f"Response Text: {response.text}")
+        agregar_mensajes_log(f"Status Code: {response.status_code}", number)
+        agregar_mensajes_log(f"Response Text: {response.text}", number)
 
         # Revisar si la respuesta incluye un JSON con detalles del error
         try:
             response_json = response.json()
-            agregar_mensajes_log(f"Response JSON: {json.dumps(response_json, indent=2)}")
+            agregar_mensajes_log(f"Response JSON: {json.dumps(response_json, indent=2)}", number)
         except ValueError:
-            agregar_mensajes_log("No JSON response received.")
+            agregar_mensajes_log("No JSON response received.", number)
 
         if response.status_code == 200:
             print("Mensaje enviado exitosamente")
@@ -213,7 +213,8 @@ def enviar_mensajes_whatsapp(texto,number):
 
     except Exception as e:
         # Manejar errores de conexión o de la solicitud
-        agregar_mensajes_log(f"Error: {str(e)}")
+        agregar_mensajes_log(f"Error: {str(e)}", number)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80,debug=True)
