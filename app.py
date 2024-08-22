@@ -93,28 +93,28 @@ def recibir_mensajes(req):
             numero = message['from']
 
             # Llama a la función para limpiar el número
-            numero_limpio = limpiar_numero_telefono(numero)
+            number = limpiar_numero_telefono(numero)
 
             tipo = message.get('type', '')
 
             if tipo == "text":
                 text = message['text']['body']
-                enviar_mensajes_whatsapp(text, numero_limpio)
+                enviar_mensajes_whatsapp(text, number)
 
             elif tipo == "interactive":
                 tipo_interactivo = message['interactive']['type']
 
                 if tipo_interactivo == "button_reply":
                     text = message['interactive']['button_reply']['id']
-                    enviar_mensajes_whatsapp(text, numero_limpio)
+                    enviar_mensajes_whatsapp(text, number)
 
                 elif tipo_interactivo == "list_reply":
                     text = message['interactive']['list_reply']['id']
-                    enviar_mensajes_whatsapp(text, numero_limpio)
+                    enviar_mensajes_whatsapp(text, number)
 
-            agregar_mensajes_log("Mensaje procesado correctamente.", numero_limpio)
+            agregar_mensajes_log("Mensaje procesado correctamente.", number)
         
-        agregar_mensajes_log("Mensaje recibido: " + str(req), numero_limpio)  # Log de depuración
+        agregar_mensajes_log("Mensaje recibido: " + str(req), number)  # Log de depuración
         return jsonify({'message': 'EVENT_RECEIVED'})
 
     except Exception as e:
