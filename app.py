@@ -153,8 +153,6 @@ def enviar_mensajes_whatsapp(texto,number):
         "Authorization" : "Bearer EAAYhSwsIKiQBO3sPDAHaUIiOjfOsOp4BdbvrVmklTxxlCcr98U6Y0u8YboPrn4XwbRiTPRnZAa4ibIyWZBZAxHHJRJ7wSkUCzx8cdEXXL4437lBFxr2YTgX0YG1TscSOdTHSIcyDwEqrlX8b8oPc4UC3NMqZA4xvXxY8j10d55WbwTWmXgYc5q0586h65o2ZAIu02lWnxtDkYDPGxUWgZD"
     }
 
-    headers = json.dumps(headers)
-
     #connection = http.client.HTTPSConnection("graph.facebook.com")
 
     # try:
@@ -173,20 +171,36 @@ def enviar_mensajes_whatsapp(texto,number):
     
     # URL de la API de WhatsApp
     #url = "https://graph.facebook.com/v20.0/368298853039307/messages"
-    connection = http.client.HTTPSConnection("graph.facebook.com")
+    # connection = http.client.HTTPSConnection("graph.facebook.com")
+
+    # try:
+    #     # Enviar la solicitud POST
+    #     connection.request("POST","/v20.0/368298853039307/messages", data, headers)
+    #     response = connection.getresponse()
+    #     #response = requests.post(url, headers=headers, data=json.dumps(data))
+    #     agregar_mensajes_log(response.status)
+    #     agregar_mensajes_log(response.reason)
+    # except Exception as e:
+    #     # Manejar errores de conexión o de la solicitud
+    #     agregar_mensajes_log("Error en enviar_mensajes_whatsapp: " + str(e))
+    # finally:
+    #     connection.close()
+        
+    # URL de la API de WhatsApp
+    url = "https://graph.facebook.com/v20.0/368298853039307/messages"
 
     try:
         # Enviar la solicitud POST
-        connection.request("POST","/v20.0/368298853039307/messages", data, headers)
-        response = connection.getresponse()
-        #response = requests.post(url, headers=headers, data=json.dumps(data))
-        agregar_mensajes_log(response.status)
-        agregar_mensajes_log(response.reason)
+        response = requests.post(url, headers=headers, data=data)
+        
+        # Verificar el estado de la respuesta
+        if response.status_code == 200:
+            agregar_mensajes_log("Mensaje enviado exitosamente")
+        else:
+            agregar_mensajes_log(f"Error al enviar mensaje: {response.status_code}, {response.reason}")
     except Exception as e:
         # Manejar errores de conexión o de la solicitud
-        agregar_mensajes_log(e)
-    finally:
-        connection.close()    
+        agregar_mensajes_log(f"Error: {str(e)}")        
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80,debug=True)
