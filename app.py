@@ -109,13 +109,17 @@ def recibir_mensajes(req):
             raise ValueError("La clave 'from' no está en 'message'.")
 
         if 'text' in message and 'body' in message['text']:
-            text = "Texto del mensaje: " + message['text']['body']
-            agregar_mensajes_log(text)
+            text = message['text']['body']
+            # Llama a la función para enviar el mensaje
+            enviar_mensajes_whatsapp(text, numero)
+        else:
+            raise ValueError("El mensaje no contiene texto.")
 
         return jsonify({'message': 'EVENT_RECEIVED'})
     except Exception as e:
         agregar_mensajes_log("Error: " + str(e))  # Registro de depuración
         return jsonify({'message': 'EVENT_RECEIVED'})
+
 
 def enviar_mensajes_whatsapp(texto,number):
     texto = texto.lower()
