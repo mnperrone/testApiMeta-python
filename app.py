@@ -91,7 +91,6 @@ def recibir_mensajes(req):
         if messages:
             message = messages[0]
             numero = message['from']
-
             # Llama a la función para limpiar el número
             number = limpiar_numero_telefono(numero)
 
@@ -123,6 +122,7 @@ def recibir_mensajes(req):
 
 def enviar_mensajes_whatsapp(texto, number):
     texto = texto.lower()
+    number = number
     if "hola" in texto:
         data = {
             "messaging_product": "whatsapp",    
@@ -148,7 +148,6 @@ def enviar_mensajes_whatsapp(texto, number):
     
     # Registro de depuración con el remitente (número)
     agregar_mensajes_log(f"Data Sent: {json.dumps(data, indent=2)}", number)
-
 
     headers = {
         "Content-Type" : "application/json",
