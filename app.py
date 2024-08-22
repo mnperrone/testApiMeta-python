@@ -145,7 +145,8 @@ def enviar_mensajes_whatsapp(texto,number):
                 }
     #Convertir el diccionario a formato json
     data = json.dumps(data)
-    agregar_mensajes_log("Enviando mensaje de respuesta: " + data)  # Registro de depuración
+    #agregar_mensajes_log("Enviando mensaje de respuesta: " + data)  # Registro de depuración
+    agregar_mensajes_log(f"Data Sent: {json.dumps(data, indent=2)}")
 
 
     headers = {
@@ -190,17 +191,28 @@ def enviar_mensajes_whatsapp(texto,number):
     url = "https://graph.facebook.com/v20.0/368298853039307/messages"
 
     try:
-        # Enviar la solicitud POST
-        response = requests.post(url, headers=headers, data=data)
-        
-        # Verificar el estado de la respuesta
+        # Enviar la solicitud POST con requests
+        response = requests.post(url, headers=headers, json=data)
+
+        # Registrar el estado de la respuesta y el contenido completo de la respuesta
+        agregar_mensajes_log(f"Status Code: {response.status_code}")
+        agregar_mensajes_log(f"Response Text: {response.text}")
+
+        # Revisar si la respuesta incluye un JSON con detalles del error
+        try:
+            response_json = response.json()
+            agregar_mensajes_log(f"Response JSON: {json.dumps(response_json, indent=2)}")
+        except ValueError:
+            agregar_mensajes_log("No JSON response received.")
+
         if response.status_code == 200:
-            agregar_mensajes_log("Mensaje enviado exitosamente")
+            print("Mensaje enviado exitosamente")
         else:
-            agregar_mensajes_log(f"Error al enviar mensaje: {response.status_code}, {response.reason}")
+            print(f"Error al enviar mensaje: {response.status_code}, {response.reason}")
+
     except Exception as e:
         # Manejar errores de conexión o de la solicitud
-        agregar_mensajes_log(f"Error: {str(e)}")        
+        agregar_mensajes_log(f"Error: {str(e)}")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80,debug=True)
