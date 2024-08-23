@@ -144,14 +144,14 @@ def enviar_mensajes_whatsapp(texto, number):
         }
     
     # Registro de depuración con el remitente (número)
-    agregar_mensajes_log(f"Data Sent: {json.dumps(data, indent=2)}", number)
+    agregar_mensajes_log(f"Mensaje enviado: {texto}", number)
 
     #Convertir el diccionaria a formato JSON
     data=json.dumps(data)
     
     headers = {
         "Content-Type" : "application/json",
-        "Authorization" : "Bearer EAAYhSwsIKiQBO3sPDAHaUIiOjfOsOp4BdbvrVmklTxxlCcr98U6Y0u8YboPrn4XwbRiTPRnZAa4ibIyWZBZAxHHJRJ7wSkUCzx8cdEXXL4437lBFxr2YTgX0YG1TscSOdTHSIcyDwEqrlX8b8oPc4UC3NMqZA4xvXxY8j10d55WbwTWmXgYc5q0586h65o2ZAIu02lWnxtDkYDPGxUWgZD"
+        "Authorization" : "Bearer EAAYhSwsIKiQBOwVE1mViKlQYCRWqwl2oMvda0Pp0aqZAoDxHIatDIX0unn4mDhV7MuKGusJfRBjDCm1uuvcbXZCy2ZCBzZBf2m74ueSaZB5YZCc54c4cC0Midd6FDH1q8WSsj1cLZC2rGBFvuxLZCw5ZCqwTn0Jpk8ZBV20hDAesPuvzOWLivy3JAxvNqMam3T7TFjAx1GgmsogqpHFkMMh8EZD"
     }
 
     connection = http.client.HTTPSConnection("graph.facebook.com")
