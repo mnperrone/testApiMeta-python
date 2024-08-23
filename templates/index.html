@@ -6,40 +6,100 @@
     <title>Mensajes Log</title>
     <style>
         table {
-            width: 80%;
+            width: 100%;
             border-collapse: collapse;
-            margin: 20px auto;
+            table-layout: fixed; /* Fija el layout de la tabla para respetar los anchos definidos */
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
         }
+
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
+            word-wrap: break-word; /* Permite que el texto se ajuste dentro de la celda */
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        /* Definición de anchos para cada columna */
+        .col-id {
+            width: 5%;
+        }
+
+        .col-fecha {
+            width: 20%;
+        }
+
+        .col-remitente {
+            width: 15%;
+        }
+
+        .col-data {
+            width: 30%;
+        }
+
+        .col-mensaje {
+            width: 30%;
+        }
+
+        /* Estilos para hacer la tabla responsive */
+        @media screen and (max-width: 768px) {
+            table, thead, tbody, th, td, tr { 
+                display: block; 
+            }
+
+            th {
+                position: sticky;
+                top: 0;
+                background-color: #f9f9f9;
+                z-index: 2;
+            }
+
+            td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 45%;
+                padding-left: 15px;
+                font-weight: bold;
+                text-align: left;
+            }
         }
     </style>
 </head>
 <body>
-    <h2>Registro de mensajes</h2>
+    <h2>Registro de Mensajes</h2>
     <table>
-        <tr>
-            <th>id</th>
-            <th>fecha y Hora</th>
-            <th>Remitente</th>
-            <th>Data</th>
-            <th>Mensaje</th>
-        </tr>
-        {% for registro in registros %}
+        <thead>
             <tr>
-                <td>{{ registro.id }}</td>
-                <td>{{ registro.fecha_y_hora.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                <td>{{ registro.remitente }}</td>
-                <td>{{ registro.datajson }}</td>
-                <td>{{ registro.texto }}</td>
+                <th class="col-id">ID</th>
+                <th class="col-fecha">Fecha y Hora</th>
+                <th class="col-remitente">Remitente</th>
+                <th class="col-data">Data</th>
+                <th class="col-mensaje">Mensaje</th>
             </tr>
-        {% endfor %} 
+        </thead>
+        <tbody>
+            {% for registro in registros %}
+            <tr>
+                <td class="col-id">{{ registro.id }}</td>
+                <td class="col-fecha">{{ registro.fecha_y_hora.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td class="col-remitente">{{ registro.remitente }}</td>
+                <td class="col-data">{{ registro.datajson }}</td>
+                <td class="col-mensaje">{{ registro.texto }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-    
 </body>
 </html>
