@@ -160,7 +160,7 @@ def enviar_mensajes_whatsapp(texto, number):
          response = connection.getresponse()
          #agregar_mensajes_log(response.status)
          #agregar_mensajes_log(response.status)
-         agregar_mensajes_log(f"{response.status} - {response.reason}",number)
+         agregar_mensajes_log(f"{response.status} - {response.reason}", number)
     except Exception as e:
          agregar_mensajes_log(e)
     finally:
