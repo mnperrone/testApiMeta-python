@@ -143,7 +143,7 @@ def enviar_mensajes_whatsapp(texto, number):
                 "type": "text",
                 "text": {
                     "preview_url": False,
-                    "body": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                    "body": "El Movimiento de Liberación Nacional (MLN) encarna la continuidad histórica en el siglo XXI del Modelo Argentino de Desarrollo. Nuestras bases son sólidas, perdurables, y se encuentran en el corazón de cada argentino. Somos los hombres y mujeres de San Martín, Rosas, Yrigoyen y Perón. Somos el pueblo que durante más de 200 años, pugnó por la Liberación Nacional por medio del poder determinante del trabajo y la fuerza de la comunidad organizada. Así José de San Martín construyó las fábricas militares como brazo industrial de la gesta libertadora. De esa manera, Juan Manuel de Rosas nacionalizó la banca y el comercio exterior poniendo límites a los imperialismos europeos. Bajo el mismo modelo Hipólito Yrigoyen creó la primera petrolera estatal del planeta tierra, YPF."
                 }
             }
     elif "2" in texto:
@@ -218,7 +218,7 @@ def enviar_mensajes_whatsapp(texto, number):
                 "type": "text",
                 "text": {
                     "preview_url": False,
-                    "body": "🚀 Hola, visita mi web anderson-bastidas.com para más información.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del Curso. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar temario en PDF. 📄\n4️⃣. Audio explicando curso. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con AnderCode. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
+                    "body": "🚀 Hola, visita mi web https://mln.ar/ para más información.\n \n📌Por favor, ingresa un número #️⃣ para recibir información.\n \n1️⃣. Información del Proyecto. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar temario en PDF. 📄\n4️⃣. Audio explicando curso. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con AnderCode. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜 \n0️⃣. Regresar al Menú. 🕜"
                 }
             }
     elif "boton" in texto:
