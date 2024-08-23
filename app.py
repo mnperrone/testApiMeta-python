@@ -87,6 +87,7 @@ def recibir_mensajes(req):
         changes = entry.get('changes', [])[0]
         value = changes.get('value', {})
         messages = value.get('messages', [])
+        number = "N/A"  # Valor predeterminado en caso de que no se defina
 
         if messages:
             message = messages[0]
@@ -117,7 +118,7 @@ def recibir_mensajes(req):
         return jsonify({'message': 'EVENT_RECEIVED'})
 
     except Exception as e:
-        agregar_mensajes_log("Error: " + str(e), numero if 'numero' in locals() else "N/A")
+        agregar_mensajes_log("Error: " + str(e), number)
         return jsonify({'message': 'EVENT_RECEIVED'})
 
 def enviar_mensajes_whatsapp(texto, number):
