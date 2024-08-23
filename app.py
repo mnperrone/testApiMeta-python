@@ -111,8 +111,6 @@ def recibir_mensajes(req):
                 elif tipo_interactivo == "list_reply":
                     text = message['interactive']['list_reply']['id']
                     enviar_mensajes_whatsapp(text, number)
-
-            agregar_mensajes_log("Mensaje procesado correctamente.", number)
         
         agregar_mensajes_log("Mensaje recibido: " + str(req), number)  # Log de depuración
         return jsonify({'message': 'EVENT_RECEIVED'})
@@ -155,21 +153,18 @@ def enviar_mensajes_whatsapp(texto, number):
         "Authorization" : "Bearer EAAYhSwsIKiQBO3sPDAHaUIiOjfOsOp4BdbvrVmklTxxlCcr98U6Y0u8YboPrn4XwbRiTPRnZAa4ibIyWZBZAxHHJRJ7wSkUCzx8cdEXXL4437lBFxr2YTgX0YG1TscSOdTHSIcyDwEqrlX8b8oPc4UC3NMqZA4xvXxY8j10d55WbwTWmXgYc5q0586h65o2ZAIu02lWnxtDkYDPGxUWgZD"
     }
 
-    #connection = http.client.HTTPSConnection("graph.facebook.com")
+    connection = http.client.httpsconnection("graph.facebook.com")
 
-    # try:
-    #     connection.request("POST","/v20.0/368298853039307/messages", data, headers)
-    #     response = connection.getresponse()
-    #     agregar_mensajes_log(response.status)
-    #     agregar_mensajes_log(response.reason)
-    #     if response.status == 200:
-    #         print("Mensaje enviado exitosamente")
-    #     else:
-    #         print("Error al enviar mensaje:", response.status, response.reason)
-    # except Exception as e:
-    #     agregar_mensajes_log(e)
-    # finally:
-    #     connection.close()
+    try:
+         connection.request("POST","/v20.0/368298853039307/messages", data, headers)
+         response = connection.getresponse()
+         #agregar_mensajes_log(response.status)
+         #agregar_mensajes_log(response.status)
+         agregar_mensajes_log(f"{response.status} - {response.reason}",number)
+    except Exception as e:
+         agregar_mensajes_log(e)
+    finally:
+         connection.close()
     
     # URL de la API de WhatsApp
     #url = "https://graph.facebook.com/v20.0/368298853039307/messages"
@@ -189,31 +184,31 @@ def enviar_mensajes_whatsapp(texto, number):
     #     connection.close()
         
     # URL de la API de WhatsApp
-    url = "https://graph.facebook.com/v20.0/368298853039307/messages"
+    # url = "https://graph.facebook.com/v20.0/368298853039307/messages"
 
-    try:
-        # Enviar la solicitud POST con requests sin json.dumps(data)
-        response = requests.post(url, headers=headers, json=data)
+    # try:
+    #     # Enviar la solicitud POST con requests sin json.dumps(data)
+    #     response = requests.post(url, headers=headers, json=data)
 
-        # Registrar el estado de la respuesta y el contenido completo de la respuesta
-        agregar_mensajes_log(f"Status Code: {response.status_code}", number)
-        agregar_mensajes_log(f"Response Text: {response.text}", number)
+    #     # Registrar el estado de la respuesta y el contenido completo de la respuesta
+    #     agregar_mensajes_log(f"Status Code: {response.status_code}", number)
+    #     agregar_mensajes_log(f"Response Text: {response.text}", number)
 
-        # Revisar si la respuesta incluye un JSON con detalles del error
-        try:
-            response_json = response.json()
-            agregar_mensajes_log(f"Response JSON: {json.dumps(response_json, indent=2)}", number)
-        except ValueError:
-            agregar_mensajes_log("No JSON response received.", number)
+    #     # Revisar si la respuesta incluye un JSON con detalles del error
+    #     try:
+    #         response_json = response.json()
+    #         agregar_mensajes_log(f"Response JSON: {json.dumps(response_json, indent=2)}", number)
+    #     except ValueError:
+    #         agregar_mensajes_log("No JSON response received.", number)
 
-        if response.status_code == 200:
-            print("Mensaje enviado exitosamente")
-        else:
-            print(f"Error al enviar mensaje: {response.status_code}, {response.reason}")
+    #     if response.status_code == 200:
+    #         print("Mensaje enviado exitosamente")
+    #     else:
+    #         print(f"Error al enviar mensaje: {response.status_code}, {response.reason}")
 
-    except Exception as e:
-        # Manejar errores de conexión o de la solicitud
-        agregar_mensajes_log(f"Error: {str(e)}", number)
+    # except Exception as e:
+    #     # Manejar errores de conexión o de la solicitud
+    #     agregar_mensajes_log(f"Error: {str(e)}", number)
 
 
 if __name__ == '__main__':
