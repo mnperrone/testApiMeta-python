@@ -45,6 +45,7 @@ mensajes_log = []
 #Función para agregar mensajes y guardar en la base de datos
 def agregar_mensajes_log(texto, datajson, remitente):
     texto = str(texto)
+    datajson = json.dumps(datajson) if isinstance(datajson, dict) else str(datajson)
     mensajes_log.append(texto)
     #Guardar el mensaje en la base de datos
     nuevo_registro = Log(texto=texto,datajson=datajson,remitente=remitente)
@@ -117,7 +118,7 @@ def recibir_mensajes(req):
         return jsonify({'message': 'EVENT_RECEIVED'})
 
     except Exception as e:
-        agregar_mensajes_log("N/A", "Error: " + str(e), number)
+        agregar_mensajes_log(texto="Error: " + str(e), datajson="{}", remitente=number)
         return jsonify({'message': 'EVENT_RECEIVED'})
 
 def enviar_mensajes_whatsapp(texto, number):
