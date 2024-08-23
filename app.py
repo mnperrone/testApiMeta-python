@@ -148,7 +148,7 @@ def enviar_mensajes_whatsapp(texto, number):
         }
     
     # Registro de depuración con el remitente (número)
-    agregar_mensajes_log(f"Enviado: {texto}", data, number)
+    agregar_mensajes_log(f"Enviado: {data['text']['body']}", data, number)
 
     #Convertir el diccionaria a formato JSON
     data=json.dumps(data)
