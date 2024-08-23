@@ -110,7 +110,8 @@ def recibir_mensajes(req):
                     text = message['interactive']['list_reply']['id']
                     enviar_mensajes_whatsapp(text, number)
         
-        agregar_mensajes_log("Mensaje recibido: " + str(req), number)  # Log de depuración
+            agregar_mensajes_log("Mensaje recibido: " + str(req), number)  # Log de depuración
+            
         return jsonify({'message': 'EVENT_RECEIVED'})
 
     except Exception as e:
