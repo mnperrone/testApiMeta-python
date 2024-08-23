@@ -153,7 +153,7 @@ def enviar_mensajes_whatsapp(texto, number):
         "Authorization" : "Bearer EAAYhSwsIKiQBO3sPDAHaUIiOjfOsOp4BdbvrVmklTxxlCcr98U6Y0u8YboPrn4XwbRiTPRnZAa4ibIyWZBZAxHHJRJ7wSkUCzx8cdEXXL4437lBFxr2YTgX0YG1TscSOdTHSIcyDwEqrlX8b8oPc4UC3NMqZA4xvXxY8j10d55WbwTWmXgYc5q0586h65o2ZAIu02lWnxtDkYDPGxUWgZD"
     }
 
-    connection = http.client.httpsconnection("graph.facebook.com")
+    connection = http.client.HTTPSConnection("graph.facebook.com")
 
     try:
          connection.request("POST","/v20.0/368298853039307/messages", data, headers)
