@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 import http.client
-import requests
 import json
 
 app = Flask(__name__)
@@ -27,7 +26,6 @@ class Log(db.Model):
 #Crear la tabla si no existe
 with app.app_context():
     db.create_all()
-
 
 #Funcion para ordenar registros por fecha y hora
 def ordenar_por_fecha_y_hora(registros):
@@ -161,58 +159,11 @@ def enviar_mensajes_whatsapp(texto, number):
     try:
          connection.request("POST","/v20.0/368298853039307/messages", data, headers)
          response = connection.getresponse()
-         #agregar_mensajes_log(response.status)
-         #agregar_mensajes_log(response.status)
          agregar_mensajes_log(f"{response.status} - {response.reason}", number)
     except Exception as e:
-             agregar_mensajes_log(f"Error: {str(e)}", number)  # Asegurarse de pasar el remitente
+             agregar_mensajes_log(f"Error: {str(e)}", number)  
     finally:
          connection.close()
-    
-    # URL de la API de WhatsApp
-    #url = "https://graph.facebook.com/v20.0/368298853039307/messages"
-    # connection = http.client.HTTPSConnection("graph.facebook.com")
-
-    # try:
-    #     # Enviar la solicitud POST
-    #     connection.request("POST","/v20.0/368298853039307/messages", data, headers)
-    #     response = connection.getresponse()
-    #     #response = requests.post(url, headers=headers, data=json.dumps(data))
-    #     agregar_mensajes_log(response.status)
-    #     agregar_mensajes_log(response.reason)
-    # except Exception as e:
-    #     # Manejar errores de conexión o de la solicitud
-    #     agregar_mensajes_log("Error en enviar_mensajes_whatsapp: " + str(e))
-    # finally:
-    #     connection.close()
-        
-    # URL de la API de WhatsApp
-    # url = "https://graph.facebook.com/v20.0/368298853039307/messages"
-
-    # try:
-    #     # Enviar la solicitud POST con requests sin json.dumps(data)
-    #     response = requests.post(url, headers=headers, json=data)
-
-    #     # Registrar el estado de la respuesta y el contenido completo de la respuesta
-    #     agregar_mensajes_log(f"Status Code: {response.status_code}", number)
-    #     agregar_mensajes_log(f"Response Text: {response.text}", number)
-
-    #     # Revisar si la respuesta incluye un JSON con detalles del error
-    #     try:
-    #         response_json = response.json()
-    #         agregar_mensajes_log(f"Response JSON: {json.dumps(response_json, indent=2)}", number)
-    #     except ValueError:
-    #         agregar_mensajes_log("No JSON response received.", number)
-
-    #     if response.status_code == 200:
-    #         print("Mensaje enviado exitosamente")
-    #     else:
-    #         print(f"Error al enviar mensaje: {response.status_code}, {response.reason}")
-
-    # except Exception as e:
-    #     # Manejar errores de conexión o de la solicitud
-    #     agregar_mensajes_log(f"Error: {str(e)}", number)
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80,debug=True)

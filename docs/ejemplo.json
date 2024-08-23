@@ -1,29 +1,3 @@
-{'object': 'whatsapp_business_account', 
- 'entry': [
-        {'id': '389117960950685', 'changes': [
-                {'value': {'messaging_product': 'whatsapp', 
-                  'metadata': {'display_phone_number': '15556088186', 
-                   'phone_number_id': '368298853039307'
-                        }, 
-                        'contacts': [
-                            {'profile': {'name': 'Matías'
-                                }, 'wa_id': '5491164999371'
-                            }
-                        ], 'messages': [
-                            {'from': '5491164999371', 
-                            'id': 'wamid.HBgNNTQ5MTE2NDk5OTM3MRUCABIYFjNFQjAwNEM0OEFGQTg3MkVFNEIxMjcA', 
-                            'timestamp': '1723837820', 
-                            'text': {'body': 'buenas buenas buenasssssssssss'
-                                }, 
-                            'type': 'text'
-                            }
-                        ]
-                    }, 'field': 'messages'
-                }
-            ]
-        }
-    ]
-}
 {'object': 'whatsapp_business_account', 'entry': [
         {'id': '389117960950685', 'changes': [
                 {'value': {'messaging_product': 'whatsapp', 'metadata': {'display_phone_number': '15556088186', 'phone_number_id': '368298853039307'
