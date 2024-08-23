@@ -113,12 +113,12 @@ def recibir_mensajes(req):
                     text = message['interactive']['list_reply']['id']
                     enviar_mensajes_whatsapp(text, number)
         
-            agregar_mensajes_log(texto=text, datajson="Recibido: " + str(req), remitente=number)
+            agregar_mensajes_log(texto="Recibido: {text}", datajson=str(req), remitente=number)
             
         return jsonify({'message': 'EVENT_RECEIVED'})
 
     except Exception as e:
-        agregar_mensajes_log(texto="Error: " + str(e), datajson="{}", remitente=number)
+        agregar_mensajes_log("N/A", "Error: " + str(e), number)
         return jsonify({'message': 'EVENT_RECEIVED'})
 
 def enviar_mensajes_whatsapp(texto, number):
