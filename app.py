@@ -113,7 +113,7 @@ def recibir_mensajes(req):
                     text = message['interactive']['list_reply']['id']
                     enviar_mensajes_whatsapp(text, number)
         
-            agregar_mensajes_log(texto="Recibido: {text}", datajson=str(req), remitente=number)
+            agregar_mensajes_log(f"Recibido: {text}", datajson=str(req), remitente=number)
             
         return jsonify({'message': 'EVENT_RECEIVED'})
 
