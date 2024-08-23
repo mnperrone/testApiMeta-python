@@ -16,11 +16,13 @@ class Log(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     fecha_y_hora = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     remitente = db.Column(db.String)
+    datajson = db.Column(db.TEXT)
     texto = db.Column(db.TEXT)
     
     #constructor de la clase Log
-    def __init__(self, texto, remitente):
+    def __init__(self, texto, datajson,remitente):
         self.texto = texto
+        self.datajson = datajson
         self.remitente = remitente
 
 #Crear la tabla si no existe
@@ -41,11 +43,11 @@ def index():
 mensajes_log = []
 
 #Función para agregar mensajes y guardar en la base de datos
-def agregar_mensajes_log(texto, remitente):
+def agregar_mensajes_log(texto, datajson, remitente):
     texto = str(texto)
     mensajes_log.append(texto)
     #Guardar el mensaje en la base de datos
-    nuevo_registro = Log(texto=texto,remitente=remitente)
+    nuevo_registro = Log(texto=texto,datajson=datajson,remitente=remitente)
     db.session.add(nuevo_registro)
     db.session.commit()
 
@@ -110,12 +112,12 @@ def recibir_mensajes(req):
                     text = message['interactive']['list_reply']['id']
                     enviar_mensajes_whatsapp(text, number)
         
-            agregar_mensajes_log("Mensaje recibido: " + str(req), number)  # Log de depuración
+            agregar_mensajes_log(texto=text, datajson="Recibido: " + str(req), remitente=number)
             
         return jsonify({'message': 'EVENT_RECEIVED'})
 
     except Exception as e:
-        agregar_mensajes_log("Error: " + str(e), number)
+        agregar_mensajes_log("N/A", "Error: " + str(e), number)
         return jsonify({'message': 'EVENT_RECEIVED'})
 
 def enviar_mensajes_whatsapp(texto, number):
@@ -145,7 +147,7 @@ def enviar_mensajes_whatsapp(texto, number):
         }
     
     # Registro de depuración con el remitente (número)
-    agregar_mensajes_log(f"Mensaje enviado: {texto}", number)
+    agregar_mensajes_log(f"Enviado: {texto}", data, number)
 
     #Convertir el diccionaria a formato JSON
     data=json.dumps(data)
@@ -160,9 +162,9 @@ def enviar_mensajes_whatsapp(texto, number):
     try:
          connection.request("POST","/v20.0/368298853039307/messages", data, headers)
          response = connection.getresponse()
-         agregar_mensajes_log(f"{response.status} - {response.reason}", number)
+         agregar_mensajes_log("N/A", f"{response.status} - {response.reason}", number)
     except Exception as e:
-             agregar_mensajes_log(f"Error: {str(e)}", number)  
+             agregar_mensajes_log("N/A", f"Error: {str(e)}", number)  
     finally:
          connection.close()
 

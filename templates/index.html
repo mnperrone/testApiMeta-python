@@ -27,6 +27,7 @@
             <th>id</th>
             <th>fecha y Hora</th>
             <th>Remitente</th>
+            <th>Data</th>
             <th>Mensaje</th>
         </tr>
         {% for registro in registros %}
@@ -34,6 +35,7 @@
                 <td>{{ registro.id }}</td>
                 <td>{{ registro.fecha_y_hora.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                 <td>{{ registro.remitente }}</td>
+                <td>{{ registro.datajson }}</td>
                 <td>{{ registro.texto }}</td>
             </tr>
         {% endfor %} 
