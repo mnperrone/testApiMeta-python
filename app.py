@@ -162,7 +162,7 @@ def enviar_mensajes_whatsapp(texto, number):
          #agregar_mensajes_log(response.status)
          agregar_mensajes_log(f"{response.status} - {response.reason}", number)
     except Exception as e:
-         agregar_mensajes_log(e)
+             agregar_mensajes_log(f"Error: {str(e)}", number)  # Asegurarse de pasar el remitente
     finally:
          connection.close()
     
