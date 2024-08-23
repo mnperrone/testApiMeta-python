@@ -148,6 +148,9 @@ def enviar_mensajes_whatsapp(texto, number):
     # Registro de depuración con el remitente (número)
     agregar_mensajes_log(f"Data Sent: {json.dumps(data, indent=2)}", number)
 
+    #Convertir el diccionaria a formato JSON
+    data=json.dumps(data)
+    
     headers = {
         "Content-Type" : "application/json",
         "Authorization" : "Bearer EAAYhSwsIKiQBO3sPDAHaUIiOjfOsOp4BdbvrVmklTxxlCcr98U6Y0u8YboPrn4XwbRiTPRnZAa4ibIyWZBZAxHHJRJ7wSkUCzx8cdEXXL4437lBFxr2YTgX0YG1TscSOdTHSIcyDwEqrlX8b8oPc4UC3NMqZA4xvXxY8j10d55WbwTWmXgYc5q0586h65o2ZAIu02lWnxtDkYDPGxUWgZD"
