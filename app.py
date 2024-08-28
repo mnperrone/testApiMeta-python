@@ -132,7 +132,7 @@ def enviar_mensajes_whatsapp(texto, number):
             "type": "text",
             "text": {
                 "preview_url": False,
-                "body": "🚀 Hola, ¿Cómo estás? Bienvenido."
+                "body": "🇦🇷 Hola, ¿Cómo estás? Bienvenido."
             }
         }
     else:
@@ -143,7 +143,7 @@ def enviar_mensajes_whatsapp(texto, number):
             "type": "text",
             "text": {
                 "preview_url": False,
-                "body": "🚀 Hola, visita mi web https://mln.ar/ para más información.\n\n📌Por favor, ingresa un número #️⃣ para recibir información.\n\n1️⃣. Información del Proyecto. ❔\n2️⃣. Ubicación del local. 📍\n3️⃣. Enviar temario en PDF. 📄\n4️⃣. Audio explicando curso. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con AnderCode. 🙋‍♂️\n7️⃣. Horario de Atención. 🕜\n0️⃣. Regresar al Menú. 🕜"
+                "body": "🇦🇷 Hola, visita mi web https://mln.ar/ para más información.\n\n📌Por favor, ingresa un número #️⃣ para recibir información.\n\n1️⃣. Información del Proyecto. ❔\n2️⃣. Ubicación de los grupos de militancia en el AMBA. 📍\n3️⃣. Enviar proyecto de ley IAPI XXI. 📄\n4️⃣. Audio explicando curso. 🎧\n5️⃣. Video de Introducción. ⏯️\n6️⃣. Hablar con algún compañero. 🙋‍♂️\n7️⃣. Próximas actividades. 🕜\n0️⃣. Regresar al Menú. 🕜"
             }
         }
     
