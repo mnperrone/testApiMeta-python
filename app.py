@@ -97,6 +97,8 @@ def recibir_mensajes(req):
             number = limpiar_numero_telefono(numero)
 
             tipo = message.get('type', '')
+            text = "N/A"  # Valor predeterminado en caso de que no se defina
+
 
             if tipo == "text":
                 text = message['text']['body']
@@ -124,6 +126,8 @@ def recibir_mensajes(req):
 def enviar_mensajes_whatsapp(texto, number):
     texto = texto.lower()
     number = number
+    data = None
+
     if "hola" in texto:
         data = {
             "messaging_product": "whatsapp",
@@ -181,7 +185,10 @@ def enviar_mensajes_whatsapp(texto, number):
         }
     
     # Registro de depuración con el remitente (número)
-    agregar_mensajes_log(f"Enviado: {data['text']['body']}", data, number)
+    if 'text' in data and 'body' in data['text']:
+        agregar_mensajes_log(f"Enviado: {data['text']['body']}", data, number)
+    else:
+        agregar_mensajes_log(f"Enviado: {data['type'].capitalize()}", data, number)
 
     #Convertir el diccionaria a formato JSON
     data=json.dumps(data)
