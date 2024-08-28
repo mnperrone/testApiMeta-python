@@ -182,7 +182,29 @@ def enviar_mensajes_whatsapp(texto, number):
                 "link": "https://mln.ar/descargas/0988-D-2023-ELMA.pdf",
                 "caption": "ELMA XXI C.E."
             }
-        }     
+        }
+    elif "5" in texto:
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": number,
+            "type": "document",
+            "document": {
+                "link": "https://mln.ar/descargas/0989-D-2023-REGIMEN-PARA-LA-ACTIVIDAD-DEL-TRANSPORTE-POR-AGUA.pdf",
+                "caption": "Régimen para la actividad del transporte por Agua"
+            }
+        }
+    elif "6" in texto:
+        data = {
+            "messaging_product": "whatsapp",
+            "recipient_type": "individual",
+            "to": number,
+            "type": "document",
+            "document": {
+                "link": "https://mln.ar/descargas/0987-D-2023-Fondo-para-el-Desarrollo-de-la-Industria-Naval-Nacional.pdf",
+                "caption": "Fondo de Desarrollo de la Industria Naval"
+            }
+        }              
     else:
         data = {
             "messaging_product": "whatsapp",
@@ -191,7 +213,7 @@ def enviar_mensajes_whatsapp(texto, number):
             "type": "text",
             "text": {
                 "preview_url": False,
-                "body": "🇦🇷 Hola Argentin@, visita la web del movimiento https://mln.ar/ para más información, allí también podrás afiliarte.\n\n📌Por favor, ingresa un número #️⃣ para recibir información.\n\n1️⃣. Información del Proyecto. ❔\n2️⃣. Ubicación de los grupos de militancia en el AMBA. 📍\n3️⃣. Enviar proyecto de ley IAPI XXI C.E. 📄 📍\n4️⃣Enviar proyecto de ley ELMA XXI C.E. 📄\n5️⃣. Audio explicando el proyecto. 🎧\n6️⃣. Video de Introducción. ⏯️\n7️⃣. Hablar con algún compañero. 🙋‍♂️\n8️⃣. Próximas actividades. 🕜\n0️⃣. Regresar al Menú. 🕜"
+                "body": "🇦🇷 Hola Argentin@, visita la web del movimiento https://mln.ar/ para más información, allí también podrás afiliarte.\n\n📌Por favor, ingresa un número #️⃣ para recibir información.\n\n1️⃣. Información del Proyecto. ❔\n2️⃣. Ubicación de los grupos de militancia en el AMBA. 📍\n3️⃣. Enviar proyecto de ley IAPI XXI C.E. 📄 📍\n4️⃣. Enviar proyecto de ley ELMA XXI C.E. 📄\n5️⃣. Enviar proyecto de ley Régimen Transporte por Agua. 📄\n6️⃣. Enviar proyecto de ley Fondo de Desarrollo de la Ind. Naval -. 📄\n7️⃣. Audio explicando el proyecto. 🎧\n8️⃣. Video de Introducción. ⏯️\n8️⃣. Hablar con algún compañero. 🙋‍♂️\n8️9️⃣. Próximas actividades. 🕜\n0️⃣. Regresar al Menú. 🕜"
             }
         }
     
