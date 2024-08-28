@@ -169,7 +169,6 @@ def enviar_mensajes_whatsapp(texto, number):
             "type": "document",
             "document": {
                 "link": "https://mln.ar/descargas/1154-D-2023-IAPI-XXI.pdf",
-                "link": "https://mln.ar/descargas/0988-D-2023-ELMA.pdf",
                 "caption": "IAPI XXI C.E."
             }
         }
@@ -180,9 +179,8 @@ def enviar_mensajes_whatsapp(texto, number):
             "to": number,
             "type": "document",
             "document": {
-                "link": "https://mln.ar/descargas/1154-D-2023-IAPI-XXI.pdf",
                 "link": "https://mln.ar/descargas/0988-D-2023-ELMA.pdf",
-                "caption": "IAPI XXI C.E."
+                "caption": "ELMA XXI C.E."
             }
         }     
     else:
