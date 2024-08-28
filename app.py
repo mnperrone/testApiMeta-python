@@ -213,7 +213,7 @@ def enviar_mensajes_whatsapp(texto, number):
             "type": "text",
             "text": {
                 "preview_url": False,
-                "body": "🇦🇷 Hola Argentin@, visita la web del movimiento https://mln.ar/ para más información, allí también podrás afiliarte.\n\n📌Por favor, ingresa un número #️⃣ para recibir información.\n\n1️⃣. Información del Proyecto. ❔\n2️⃣. Ubicación de los grupos de militancia en el AMBA. 📍\n3️⃣. Enviar proyecto de ley IAPI XXI C.E. 📄 📍\n4️⃣. Enviar proyecto de ley ELMA XXI C.E. 📄\n5️⃣. Enviar proyecto de ley Régimen Transporte por Agua. 📄\n6️⃣. Enviar proyecto de ley Fondo de Desarrollo de la Ind. Naval. 📄\n7️⃣. Audio explicando el proyecto. 🎧\n8️⃣. Video de Introducción. ⏯️\n8️⃣. Hablar con algún compañero. 🙋‍♂️\n9️⃣. Próximas actividades. 🕜\n0️⃣. Regresar al Menú. 🕜"
+                "body": "🇦🇷 Hola Argentin@, visita la web del movimiento https://mln.ar/ para más información, allí también podrás afiliarte.\n\n📌Por favor, ingresa un número #️⃣ para recibir información.\n\n1️⃣. Información del Proyecto. ❔\n2️⃣. Ubicación de los grupos de militancia en el AMBA. 📍\n3️⃣. Enviar proyecto de ley IAPI XXI C.E. 📄 📍\n4️⃣. Enviar proyecto de ley ELMA XXI C.E. 📄\n5️⃣. Enviar proyecto de ley Régimen Transporte por Agua. 📄\n6️⃣. Enviar proyecto de ley Fondo de Desarrollo de la Ind. Naval. 📄\n7️⃣. Audio explicando el proyecto. 🎧\n8️⃣. Video de Introducción. ⏯️\n8️⃣. Hablar con algún compañero. 🙋‍♂️\n9️⃣. Próximas actividades. 🕜\n0️⃣. Regresar al Menú. ☑️"
             }
         }
     
