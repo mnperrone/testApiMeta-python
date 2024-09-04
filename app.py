@@ -217,7 +217,6 @@ def enviar_mensajes_whatsapp(texto, number):
                 "body": "¡Hola! Soy tu asistente virtual para la tecnología educativa. ¿En qué puedo ayudarte hoy?\n\nPregunta sobre:\n* **Aprendizaje en línea:** Plataformas, cursos, recursos.\n* **Herramientas digitales:** Para docentes y estudiantes.\n* **Orientación vocacional:** Carreras tecnológicas y educativas.\n* **Proyectos educativos:** Ideas y consejos.\n\n¡Estoy aquí para responder a tus dudas!"
                 }
             }
-        }
     
     # Registro de depuración con el remitente (número)
     if 'text' in data and 'body' in data['text']:
