@@ -139,7 +139,21 @@ def enviar_mensajes_whatsapp(texto, number):
                 "body": "🇦🇷 Hola Argentin@. Bienvenido al chat del Movimiento de Liberación Nacional."
             }
         }
-    elif "1" in texto:
+    elif "1" in texto.lower():
+        # Obtener la respuesta del usuario (si es necesario)
+        respuesta_usuario = input("Te puedo recomendar plataformas como Coursera, edX o Udemy. ¿En qué área te gustaría especializarte? (Ej: programación, diseño, marketing, datos, ciencias de la computación, desarrollo web, diseño gráfico, análisis de datos): ")
+
+        # Diccionario de respuestas predefinidas
+        respuestas = {
+            "programación": "Genial, la programación es un campo muy amplio. ¿Te interesa más el desarrollo web (front-end, back-end), el desarrollo de aplicaciones móviles (iOS, Android), la programación de videojuegos o la ciencia de datos?",
+            "diseño": "El diseño es un mundo creativo. ¿Te gustaría explorar el diseño gráfico, UX/UI, diseño de producto o animación?",
+            "datos": "La ciencia de datos es un campo en auge. ¿Te interesa más el aprendizaje automático, el análisis de datos, la visualización de datos o la inteligencia artificial?",
+            "default": "¡Interesante! ¿Puedes contarme un poco más sobre lo que te gustaría aprender? ¿Quizás te interesan las humanidades, las ciencias sociales, los negocios o alguna otra área?"
+        }
+
+        # Buscar la respuesta correspondiente en el diccionario
+        respuesta = respuestas.get(respuesta_usuario.lower(), respuestas["default"])
+
         data = {
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
@@ -147,9 +161,9 @@ def enviar_mensajes_whatsapp(texto, number):
             "type": "text",
             "text": {
                 "preview_url": False,
-                "body": "El Movimiento de Liberación Nacional (MLN) encarna la continuidad histórica en el siglo XXI del Modelo Argentino de Desarrollo. Nuestras bases son sólidas, perdurables, y se encuentran en el corazón de cada argentino.\n\n Somos los hombres y mujeres de San Martín, Rosas, Yrigoyen y Perón. Somos el pueblo que durante más de 200 años, pugnó por la Liberación Nacional por medio del poder determinante del trabajo y la fuerza de la comunidad organizada. Así José de San Martín construyó las fábricas militares como brazo industrial de la gesta libertadora. De esa manera, Juan Manuel de Rosas nacionalizó la banca y el comercio exterior poniendo límites a los imperialismos europeos. Bajo el mismo modelo Hipólito Yrigoyen creó la primera petrolera estatal del planeta tierra, YPF.\n\n La obra de Juan Perón, puso a tope al Estado Empresario argentino, mediante la conducción nacional de los sectores industriales estratégicos: más de 300 empresas estatales determinantes para la producción, los servicios, la cultura y todo lo que hace a la vida nacional. En su última etapa, legó para la posteridad, dos instrumentos invaluables para el pueblo argentino y adoptados en el mundo: las Leyes 20.705 y 20.558 de Sociedades y Corporaciones del Estado. Vectores que coronan el Modelo Argentino de Desarrollo, porque integran en su seno a las firmas estatales y a las PyMEs privadas asociadas de manera complementaria, con el sólo objetivo de abandonar el rol de semicolonia en el concierto de la “división internacional del trabajo”, y tomar las riendas de la soberanía política, la independencia económica y la justicia social.\n\n El MLN afirma que existe una forma de ser nacional y eso es el Estado empresario, como forma de organización, que permite lograr el pleno empleo y es la única concepción de justicia social posible, sustentado en dos principios fundamentales: 1) cada argentino debe producir, al menos, aquello que consume y 2) donde hay una necesidad hay un derecho, porque todos tenemos derecho a trabajar. Por eso, el Estado Empresario es el centro del proceso económico y de la vida Nacional. Esa es la concepción del Modelo Argentino de Desarrollo. La Liberación Nacional será con la organización de la comunidad, de la familia y el despliegue espiritual del individuo. Argentina será libre por su pueblo y para su pueblo."
+                "body": respuesta
             }
-        }    
+        }   
     elif "2" in texto:
         data = {
             "messaging_product": "whatsapp",
